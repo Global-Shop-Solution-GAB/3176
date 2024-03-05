@@ -1,0 +1,642 @@
+Program.Sub.ScreenSU.Start
+gui.f_Cnt..create
+gui.f_Cnt..caption("Select Container Count")
+gui.f_Cnt..size(7740,5925)
+gui.f_Cnt..position(0,0)
+gui.f_Cnt..alwaysontop(False)
+gui.f_Cnt..fontname("Arial")
+gui.f_Cnt..fontsize(8)
+gui.f_Cnt..forecolor(0)
+gui.f_Cnt..fontstyle(,,,,)
+gui.f_Cnt..BackColor(-2147483633)
+gui.f_Cnt..controlbox(True)
+gui.f_Cnt..maxbutton(False)
+gui.f_Cnt..minbutton(False)
+gui.f_Cnt..mousepointer(0)
+gui.f_Cnt..moveable(True)
+gui.f_Cnt..sizeable(False)
+gui.f_Cnt..ShowInTaskBar(True)
+gui.f_Cnt..titlebar(True)
+gui.f_Cnt.gsfgCnt.create(gsflexgrid)
+gui.f_Cnt.gsfgCnt.FixedRows(0)
+gui.f_Cnt.gsfgCnt.FixedCols(0)
+gui.f_Cnt.gsfgCnt.visible(True)
+gui.f_Cnt.gsfgCnt.size(7455,4830)
+gui.f_Cnt.gsfgCnt.zorder(0)
+gui.f_Cnt.gsfgCnt.position(100,200)
+gui.f_Cnt.gsfgCnt.enabled(True)
+gui.f_Cnt.gsfgCnt.event(commandclick,gsfgcnt_commandclick)
+gui.f_Cnt.cmdSave.create(button)
+gui.f_Cnt.cmdSave.caption("Save")
+gui.f_Cnt.cmdSave.visible(True)
+gui.f_Cnt.cmdSave.size(1000,330)
+gui.f_Cnt.cmdSave.zorder(0)
+gui.f_Cnt.cmdSave.position(100,5100)
+gui.f_Cnt.cmdSave.enabled(True)
+gui.f_Cnt.cmdSave.fontname("Arial")
+gui.f_Cnt.cmdSave.fontsize(8)
+gui.f_Cnt.cmdSave.event(click,cmdsave_click)
+
+
+gui.f_Lot..create
+gui.f_Lot..caption("Lot Numbers")
+gui.f_Lot..size(3675,5325)
+gui.f_Lot..position(0,0)
+gui.f_Lot..event(unload,f_lot_unload)
+gui.f_Lot..alwaysontop(True)
+gui.f_Lot..fontname("Arial")
+gui.f_Lot..fontsize(8)
+gui.f_Lot..forecolor(0)
+gui.f_Lot..fontstyle(,,,,)
+gui.f_Lot..BackColor(-2147483633)
+gui.f_Lot..controlbox(True)
+gui.f_Lot..maxbutton(False)
+gui.f_Lot..minbutton(False)
+gui.f_Lot..mousepointer(0)
+gui.f_Lot..moveable(True)
+gui.f_Lot..sizeable(False)
+gui.f_Lot..ShowInTaskBar(True)
+gui.f_Lot..titlebar(True)
+gui.f_Lot.lblLot.create(label,"Lot Number",True,1935,255,1,100,110,True,0,Arial,8,-2147483633,0)
+gui.f_Lot.txtLot.create(textbox,"",True,2280,300,0,100,310,True,0,Arial,8,-2147483643,1)
+gui.f_Lot.txtLot.maxLength(30)
+gui.f_Lot.cmdAdd.create(button)
+gui.f_Lot.cmdAdd.caption("Add")
+gui.f_Lot.cmdAdd.visible(True)
+gui.f_Lot.cmdAdd.size(855,375)
+gui.f_Lot.cmdAdd.zorder(0)
+gui.f_Lot.cmdAdd.position(2485,275)
+gui.f_Lot.cmdAdd.enabled(True)
+gui.f_Lot.cmdAdd.fontname("Arial")
+gui.f_Lot.cmdAdd.fontsize(8)
+gui.f_Lot.cmdAdd.event(click,cmdadd_click)
+gui.f_Lot.lvw1.create(listview)
+gui.f_Lot.lvw1.view(3)
+gui.f_Lot.lvw1.addlistviewcolumn("Lot Number",3000,0)
+gui.f_Lot.lvw1.visible(True)
+gui.f_Lot.lvw1.size(3270,3630)
+gui.f_Lot.lvw1.zorder(0)
+gui.f_Lot.lvw1.position(100,725)
+gui.f_Lot.lvw1.enabled(True)
+gui.f_Lot.lvw1.fontname("Arial")
+gui.f_Lot.lvw1.fontsize(8)
+gui.f_Lot.cmdDelete.create(button)
+gui.f_Lot.cmdDelete.caption("Delete")
+gui.f_Lot.cmdDelete.visible(True)
+gui.f_Lot.cmdDelete.size(855,375)
+gui.f_Lot.cmdDelete.zorder(0)
+gui.f_Lot.cmdDelete.position(85,4425)
+gui.f_Lot.cmdDelete.enabled(True)
+gui.f_Lot.cmdDelete.fontname("Arial")
+gui.f_Lot.cmdDelete.fontsize(8)
+gui.f_Lot.cmdDelete.event(click,cmddelete_click)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Variable.UDT.uPO.Define("PO",String)
+Variable.uGlobal.uPO.Declare("uPO")
+Variable.UDT.uBOL.Define("Terminal",String,"Terminal")
+Variable.UDT.uBOL.Define("PO",String,"Purchase_Order")
+Variable.UDT.uBOL.Define("Vendor",String,"Vendor")
+Variable.UDT.uBOL.Define("Line",String,"Line")
+Variable.UDT.uBOL.Define("Part",String,"Part")
+Variable.UDT.uBOL.Define("Description",String,"Description")
+Variable.UDT.uBOL.Define("Qty",Float,"Quantity")
+Variable.UDT.uBOL.Define("Weight",Float,"Weight")
+Variable.UDT.uBOL.Define("VendPart",String,"Vendor_Part")
+Variable.UDT.uBOL.Define("Shipper",Long,"Shipper")
+Variable.UDT.uBOL.Define("ShipVia",String,"Ship_Via")
+Variable.UDT.uBOL.Define("ShipViaMsg",String,"Ship_Via_Msg")
+Variable.UDT.uBOL.Define("NtWeight",Float,"Net_Weight")
+Variable.UDT.uBOL.Define("CopyNum",Long,"Copy_Number")
+Variable.UDT.uBOL.Define("Cnt",Long,"Container_Count")
+Variable.uGlobal.uBOL.Declare("uBOL")
+Variable.Global.iKey.Declare(Long,0)
+Variable.Global.iListKey.Declare(Long,0)
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'Coded by: mla
+'Project Start Date: 7/25/2011
+'Hooks:
+'  16950
+'Notes:
+'  Mercury
+
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+F.Intrinsic.Control.CallSub(Loadpoudt)
+
+Program.Sub.Main.End
+
+Program.Sub.LoadPOUDT.Start
+F.Intrinsic.Control.SetErrorHandler("LoadPOUDT_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sFile.Declare(String)
+V.Local.sFileString.Declare(String)
+V.Local.sFileRow.Declare(String)
+V.Local.sRet.Declare(String)
+V.Local.iUB.Declare(Long)
+V.Local.i.Declare(String)
+V.Local.sSql.Declare(String)
+
+F.Intrinsic.String.Concat("Delete ATG_3176_BI_OSV_BOL where Terminal = '",V.Caller.Terminal,"'",V.Local.sSql)
+F.ODBC.Connection!con.Execute(V.Local.sSql)
+F.Intrinsic.String.Concat("Delete ATG_BI3176__OSV_BOL_Lot where Terminal = '",V.Caller.Terminal,"'",V.Local.sSql)
+F.ODBC.Connection!con.Execute(V.Local.sSql)
+
+V.uGlobal.uPO.Redim(-1,-1)
+V.Local.sFile.Set(V.Passed.009000)
+F.Intrinsic.String.Concat(V.Caller.FilesDir,"\",V.Local.sFile.Trim,V.Local.sFile)
+F.Intrinsic.File.File2String(V.Local.sFile,V.Local.sFileString)
+F.Intrinsic.String.Split(V.Local.sFileString,V.Ambient.NewLine,V.Local.sFileString)
+F.Intrinsic.Control.For(V.Local.i,V.Local.sFileString.LBound,V.Local.sFileString.UBound,1)
+	V.Local.sFileRow.Redim(0,0)
+	F.Intrinsic.String.Split(V.Local.sFileString(V.Local.i),V.Ambient.Tab,V.Local.sFileRow)
+	F.Intrinsic.Control.If(V.uGlobal.uPO.UBound,=,-1)
+		V.uGlobal.uPO.Redim(0,0)
+		V.uGlobal.uPO!PO.Set(V.Local.sFileRow(0))
+	F.Intrinsic.Control.Else
+		F.Intrinsic.Variable.UDTSeek(V.uGlobal.uPO!PO,V.Local.sFileRow(0),0,V.Local.sRet)
+		F.Intrinsic.Control.If(V.Local.sRet,=,"")
+			V.Local.iUB.Set(V.uGlobal.uPO.UBound)
+			F.Intrinsic.Math.Add(V.Local.iUB,1,V.Local.iUB)
+			V.uGlobal.uPO.RedimPreserve(V.uGlobal.uPO.LBound,V.Local.iUB)
+			V.uGlobal.uPO(V.Local.iUB)!PO.Set(V.Local.sFileRow(0))
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.i)
+F.Intrinsic.Control.CallSub(Loadboludt)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("LoadPOUDT_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.LoadPOUDT.End
+
+Program.Sub.Unload.Start
+F.Intrinsic.Control.SetErrorHandler("Unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.ODBC.Connection!con.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Unload.End
+
+Program.Sub.LoadBOLUDT.Start
+F.Intrinsic.Control.SetErrorHandler("LoadBOLUDT_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.sSql.Declare(String)
+V.Local.iUB.Declare(Long)
+V.Local.sVendor.Declare(String)
+V.Local.sPO.Declare(String)
+V.Local.fWght.Declare(Float)
+V.Local.fNTWght.Declare(Float)
+V.Local.sPart.Declare(String)
+V.Local.sVendPart.Declare(String)
+V.Local.sShipVia.Declare(String)
+V.Local.sShipViaMsg.Declare(String)
+
+V.uGlobal.uBOL.Redim(-1,-1)
+V.Local.iUB.Set(-1)
+F.Intrinsic.Control.If(V.uGlobal.uPO.UBound,=,-1)
+	F.Intrinsic.Control.CallSub(Unload)
+F.Intrinsic.Control.Else
+	F.Intrinsic.Control.For(V.Local.i,V.uGlobal.uPO.LBound,V.uGlobal.uPO.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uBOL.UBound,=,-1)
+			V.uGlobal.uBOL.Redim(0,0)
+		F.Intrinsic.Control.EndIf
+		V.Local.sPO.Set(V.uGlobal.uPO(V.Local.i)!PO)
+		F.Intrinsic.String.Concat("Select VENDOR, SHIP_VIA from V_PO_HEADER where PURCHASE_ORDER = '",V.uGlobal.uPO(V.Local.i)!PO,"'",V.Local.sSql)
+		F.ODBC.Connection!con.OpenRecordsetRO("rst",V.Local.sSql)
+		F.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,False)
+			V.Local.sVendor.Set(V.ODBC.con!rst.FieldValTrim!VENDOR)
+			V.Local.sShipViaMsg.Set(V.ODBC.con!rst.FieldValTrim!SHIP_VIA)
+			F.Intrinsic.String.Concat("Select SHIP_VIA_CODE from V_AP_SHIP_VIA where SHIP_VIA = '",V.Local.sShipViaMsg,"'",V.Local.sSql)
+			F.ODBC.Connection!con.OpenRecordsetRO("rstShipVia",V.Local.sSql)
+			F.Intrinsic.Control.If(V.ODBC.con!rstShipVia.EOF,=,False)
+				V.Local.sShipVia.Set(V.ODBC.con!rstShipVia.FieldValTrim!SHIP_VIA_CODE)
+			F.Intrinsic.Control.EndIf
+			F.ODBC.con!rstShipVia.Close
+		F.Intrinsic.Control.EndIf
+		F.ODBC.con!rst.Close
+		F.Intrinsic.String.Concat("Select RECORD_NO, PART, DESCRIPTION, QTY_ORDER from V_PO_LINES where PURCHASE_ORDER = '",V.uGlobal.uPO(V.Local.i)!PO,"'",V.Local.sSql)
+		F.ODBC.Connection!con.OpenRecordsetRO("rst",V.Local.sSql)
+		F.Intrinsic.Control.DoUntil(V.ODBC.con!rst.EOF,=,True)
+			F.Intrinsic.Math.Add(V.Local.iUB,1,V.Local.iUB)
+			V.uGlobal.uBOL.RedimPreserve(V.uGlobal.uBOL.LBound,V.Local.iUB)
+			V.uGlobal.uBOL(V.Local.iUB)!Terminal.Set(V.Caller.Terminal)
+			V.uGlobal.uBOL(V.Local.iUB)!Shipper.Set(V.Local.sPO)
+			V.uGlobal.uBOL(V.Local.iUB)!ShipVia.Set(V.Local.sShipVia)
+			V.uGlobal.uBOL(V.Local.iUB)!ShipViaMsg.Set(V.Local.sShipViaMsg)
+			V.uGlobal.uBOL(V.Local.iUB)!PO.Set(V.Local.sPO)
+			V.uGlobal.uBOL(V.Local.iUB)!Vendor.Set(V.Local.sVendor)
+			V.uGlobal.uBOL(V.Local.iUB)!Line.Set(V.ODBC.con!rst.FieldValTrim!RECORD_NO)
+			V.Local.sPart.Set(V.ODBC.con!rst.FieldValTrim!PART)
+			F.Intrinsic.String.Replace(V.Local.sPart,"*"," ",V.Local.sPart)
+			V.uGlobal.uBOL(V.Local.iUB)!Part.Set(V.Local.sPart)
+			V.uGlobal.uBOL(V.Local.iUB)!Description.Set(V.ODBC.con!rst.FieldValTrim!DESCRIPTION)
+			V.uGlobal.uBOL(V.Local.iUB)!Qty.Set(V.ODBC.con!rst.FieldValFloat!QTY_ORDER)
+			V.Local.fNTWght.Set(0)
+			V.Local.fWght.Set(0)
+			F.Intrinsic.String.Concat("Select LBS from V_INVENTORY_MST2 where PART = '",V.Local.sPart,"'",V.Local.sSql)
+			F.ODBC.Connection!con.OpenRecordsetRO("rstLBS",V.Local.sSql)
+			F.Intrinsic.Control.If(V.ODBC.con!rstLBS.EOF,=,False)
+				F.Intrinsic.Math.Mult(V.ODBC.con!rst.FieldValFloat!QTY_ORDER,V.ODBC.con!rstLBS.FieldValFloat!LBS,V.Local.fWght)
+				V.uGlobal.uBOL(V.Local.iUB)!NtWeight.Set(V.Local.fWght)
+				V.Local.fNTWght.Set(V.Local.fWght)
+			F.Intrinsic.Control.Else
+				V.Local.fWght.Set(0)
+			F.Intrinsic.Control.EndIf
+			F.ODBC.con!rstLBS.Close
+			V.uGlobal.uBOL(V.Local.iUB)!Weight.Set(V.Local.fWght)
+			F.Intrinsic.String.Concat("Select MFG_PART from V_INV_CROSS_REF where PART = '",V.Local.sPart,"' and VENDOR = '",V.Local.sVendor,"'",V.Local.sSql)
+			F.ODBC.Connection!con.OpenRecordsetRO("rstXRef",V.Local.sSql)
+			V.Local.sVendPart.Set("")
+			F.Intrinsic.Control.If(V.ODBC.con!rstXRef.EOF,=,False)
+				V.uGlobal.uBOL(V.Local.iUB)!VendPart.Set(V.ODBC.con!rstXRef.FieldValTrim!MFG_PART)
+				V.Local.sVendPart.Set(V.ODBC.con!rstXRef.FieldValTrim!MFG_PART)
+			F.Intrinsic.Control.EndIf
+			F.ODBC.con!rstXRef.Close
+			V.uGlobal.uBOL(V.Local.iUB)!CopyNum.Set(1)
+			F.Intrinsic.Math.Add(V.Local.iUB,1,V.Local.iUB)
+			V.uGlobal.uBOL.RedimPreserve(V.uGlobal.uBOL.LBound,V.Local.iUB)
+			V.uGlobal.uBOL(V.Local.iUB)!Terminal.Set(V.Caller.Terminal)
+			V.uGlobal.uBOL(V.Local.iUB)!Shipper.Set(V.Local.sPO)
+			V.uGlobal.uBOL(V.Local.iUB)!ShipVia.Set(V.Local.sShipVia)
+			V.uGlobal.uBOL(V.Local.iUB)!ShipViaMsg.Set(V.Local.sShipViaMsg)
+			V.uGlobal.uBOL(V.Local.iUB)!PO.Set(V.Local.sPO)
+			V.uGlobal.uBOL(V.Local.iUB)!Vendor.Set(V.Local.sVendor)
+			V.uGlobal.uBOL(V.Local.iUB)!Line.Set(V.ODBC.con!rst.FieldValTrim!RECORD_NO)
+			V.uGlobal.uBOL(V.Local.iUB)!Part.Set(V.Local.sPart)
+			V.uGlobal.uBOL(V.Local.iUB)!Description.Set(V.ODBC.con!rst.FieldValTrim!DESCRIPTION)
+			V.uGlobal.uBOL(V.Local.iUB)!Qty.Set(V.ODBC.con!rst.FieldValFloat!QTY_ORDER)
+			V.uGlobal.uBOL(V.Local.iUB)!NtWeight.Set(V.Local.fNTWght)
+			V.uGlobal.uBOL(V.Local.iUB)!Weight.Set(V.Local.fWght)
+			V.uGlobal.uBOL(V.Local.iUB)!VendPart.Set(V.Local.sVendPart)
+			V.uGlobal.uBOL(V.Local.iUB)!CopyNum.Set(2)
+			F.ODBC.con!rst.MoveNext
+		F.Intrinsic.Control.Loop
+		F.ODBC.con!rst.Close
+	F.Intrinsic.Control.Next(V.Local.i)
+	F.Intrinsic.Control.CallSub(Gridload)
+F.Intrinsic.Control.Else
+	F.Intrinsic.Control.CallSub(Unload)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("LoadBOLUDT_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.LoadBOLUDT.End
+
+Program.Sub.LoadRST.Start
+F.Intrinsic.Control.SetErrorHandler("LoadRST_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+
+F.Intrinsic.Control.If(V.uGlobal.uBOM.UBound,<>,-1)
+	V.Local.sSql.Set("Select * from ATG_3176_BI_OSV_BOL")
+	F.ODBC.Connection!con.OpenRecordsetRW("rst",V.Local.sSql)
+	F.Intrinsic.Variable.SaveUDTToRecordset("con","rst","Variable.uGlobal.uBOL")
+	F.Intrinsic.Control.CallSub(Callbi)
+F.Intrinsic.Control.Else
+	F.Intrinsic.Control.CallSub(Unload)
+F.Intrinsic.Control.EndIf
+F.ODBC.con!rst.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("LoadRST_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.LoadRST.End
+
+Program.Sub.CallBI.Start
+F.Intrinsic.Control.SetErrorHandler("CallBI_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.iBI.Declare(Long)
+V.Local.sParam.Declare(String)
+V.Local.sParamVal.Declare(String)
+V.Local.sFile.Declare(String)
+V.Local.sDate.Declare(String)
+
+V.Local.sParam.Set("Terminal")
+V.Local.sParamVal.Set(V.Caller.Terminal)
+F.Global.BI.GetIDFromName("ATG_3176_BI_OSV_BOL_Lot.rpt",V.Local.iBI)
+F.Intrinsic.String.Format(V.Ambient.Now,"MMDDYYYYHHNNSS",V.Local.sDate)
+F.Intrinsic.String.Concat(V.Caller.FilesDir,"\BOL\BOL",V.Local.sDate,V.Local.sFile)
+F.Global.BI.PrintReport(V.Local.iBI,0,V.Local.sParam,V.Local.sParamVal,"",False)
+F.Intrinsic.Control.CallSub(Unload)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("CallBI_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.CallBI.End
+
+Program.Sub.GridStyle.Start
+F.Intrinsic.Control.SetErrorHandler("GridStyle_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.iCol.Declare(Long)
+
+F.Intrinsic.Control.DoUntil(V.Local.iCol,=,3)
+	Gui.f_Cnt.gsfgCnt.BuildStyle(2,V.Local.iCol,"type","locked",True)
+	Gui.f_Cnt.gsfgCnt.BuildStyle(2,V.Local.iCol,"format","alignment",2)
+	Gui.f_Cnt.gsfgCnt.BuildStyle(2,V.Local.iCol,"fontstyle","bold",False)
+	F.Intrinsic.Math.Add(V.Local.iCol,1,V.Local.iCol)
+F.Intrinsic.Control.Loop
+Gui.f_Cnt.gsfgCnt.BuildStyle(2,5,"type","command","Lot #s")
+Gui.f_Cnt.gsfgCnt.BuildStyle(2,5,"format","alignment",4)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("GridStyle_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.GridStyle.End
+
+Program.Sub.GridTitle.Start
+F.Intrinsic.Control.SetErrorHandler("GridTitle_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.iCol.Declare(Long)
+
+Gui.f_Cnt.gsfgCnt.Rows(1)
+Gui.f_Cnt.gsfgCnt.Cols(6)
+Gui.f_Cnt.gsfgCnt.TextMatrix(0,0,"Purchase Order")
+Gui.f_Cnt.gsfgCnt.ColWidth(0,1500)
+Gui.f_Cnt.gsfgCnt.TextMatrix(1,0,"Line")
+Gui.f_Cnt.gsfgCnt.ColWidth(1,750)
+Gui.f_Cnt.gsfgCnt.TextMatrix(2,0,"Part")
+Gui.f_Cnt.gsfgCnt.ColWidth(2,2200)
+Gui.f_Cnt.gsfgCnt.TextMatrix(3,0,"Count")
+Gui.f_Cnt.gsfgCnt.ColWidth(3,750)
+Gui.f_Cnt.gsfgCnt.TextMatrix(4,0,"Weight")
+Gui.f_Cnt.gsfgCnt.ColWidth(4,1000)
+Gui.f_Cnt.gsfgCnt.TextMatrix(5,0,"")
+
+F.Intrinsic.Control.DoUntil(V.Local.iCol,=,5)
+	Gui.f_Cnt.gsfgCnt.BuildStyle(1,V.Local.iCol,"type","locked",True)
+	Gui.f_Cnt.gsfgCnt.BuildStyle(1,V.Local.iCol,"format","alignment",2)
+	Gui.f_Cnt.gsfgCnt.BuildStyle(1,V.Local.iCol,"fontstyle","bold",True)
+	F.Intrinsic.Math.Add(V.Local.iCol,1,V.Local.iCol)
+F.Intrinsic.Control.Loop
+Gui.f_Cnt.gsfgCnt.ApplyStyle(0,1)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("GridTitle_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.GridTitle.End
+
+Program.Sub.GridLoad.Start
+F.Intrinsic.Control.SetErrorHandler("GridLoad_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.iRows.Declare(Long)
+V.Local.iOrd.Declare(Long)
+
+F.Intrinsic.Control.CallSub(Gridtitle)
+F.Intrinsic.Control.CallSub(Gridstyle)
+F.Intrinsic.Control.If(V.uGlobal.uBOL.UBound,=,-1)
+	F.Intrinsic.Control.CallSub(Unload)
+F.Intrinsic.Control.Else
+	V.Local.iRows.Set(1)
+	F.Intrinsic.Control.For(V.Local.i,V.uGlobal.uBOL.LBound,V.uGlobal.uBOL.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uBOL(V.Local.i)!CopyNum,=,1)
+			V.Local.iOrd.Set(V.Local.iRows)
+			F.Intrinsic.Math.Add(V.Local.iRows,1,V.Local.iRows)
+			Gui.f_Cnt.gsfgCnt.Rows(V.Local.iRows)
+			Gui.f_Cnt.gsfgCnt.TextMatrix(0,V.Local.iOrd,V.uGlobal.uBOL(v.Local.i)!PO)
+			Gui.f_Cnt.gsfgCnt.TextMatrix(1,V.Local.iOrd,V.uGlobal.uBOL(v.Local.i)!Line)
+			Gui.f_Cnt.gsfgCnt.TextMatrix(2,V.Local.iOrd,V.uGlobal.uBOL(v.Local.i)!Part)
+			Gui.f_Cnt.gsfgCnt.TextMatrix(3,V.Local.iOrd,1)
+			Gui.f_Cnt.gsfgCnt.TextMatrix(4,V.Local.iOrd,270)
+			Gui.f_Cnt.gsfgCnt.ApplyStyle(V.Local.iOrd,2)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Next(V.Local.i)
+F.Intrinsic.Control.EndIf
+Gui.f_Cnt..Show
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("GridLoad_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.GridLoad.End
+
+program.sub.cmdsave_click.start
+F.Intrinsic.Control.SetErrorHandler("cmdsave_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.iRows.Declare(Long)
+V.Local.i.Declare(Long)
+V.Local.sRow.Declare(String)
+V.Local.sRet.Declare(String)
+V.Local.ia.Declare(Long)
+V.Local.iWeight.Declare(Long)
+
+Gui.f_Cnt..Visible(False)
+V.Local.iRows.Set(V.Screen.f_Cnt!gsfgCnt.Rows)
+F.Intrinsic.Math.Sub(V.Local.iRows,1,V.Local.iRows)
+F.Intrinsic.Control.For(V.Local.i,1,V.Local.iRows,1)
+	V.Local.sRow.Redim(0,0)
+	Gui.f_Cnt.gsfgCnt.ReadRow(V.Local.i,V.Local.sRow)
+	F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+	V.Local.sRet.Redim(0,0)
+	F.Intrinsic.Variable.UDTMultiSeek(V.uGlobal.uBOL!PO,V.Local.sRow(0),V.uGlobal.uBOL!Line,V.Local.sRow(1),V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,<>,"")
+		F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+		F.Intrinsic.Control.For(V.Local.ia,V.Local.sRet.LBound,V.Local.sRet.UBound,1)
+			V.uGlobal.uBOL(V.Local.sRet(V.Local.ia).Long)!Cnt.Set(V.Local.sRow(3))
+			F.Intrinsic.Math.Mult(V.Local.sRow(3),V.Local.sRow(4),V.Local.iWeight)
+			F.Intrinsic.Math.Add(V.uGlobal.uBOL(V.Local.sRet(V.Local.ia).Long)!NtWeight,V.Local.iWeight,V.uGlobal.uBOL(V.Local.sRet(V.Local.ia).Long)!Weight)
+			V.uGlobal.uBOL(V.Local.sRet(V.Local.ia).Long)!Cnt.Set(V.Local.sRow(3))
+		F.Intrinsic.Control.Next(V.Local.ia)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.i)
+F.Intrinsic.Control.CallSub(Loadrst)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdsave_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+program.sub.cmdsave_click.end
+
+program.sub.gsfgcnt_commandclick.start
+F.Intrinsic.Control.SetErrorHandler("gsfgcnt_commandclick_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRow.Declare(String)
+V.Local.sSql.Declare(String)
+
+Gui.f_Lot.lvw1.ClearItems
+V.Global.iListKey.Set(0)
+V.Global.iKey.Set(V.Args.Key)
+Gui.f_Cnt..Enabled(False)
+Gui.f_Cnt.gsfgCnt.ReadRow(V.Global.iKey,V.Local.sRow)
+F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+F.Intrinsic.String.Concat("Select * from ATG_3176_BI_OSV_BOL_LOT where Purchase_Order = '",V.Local.sRow(0).Trim,"' and Line = '",V.Local.sRow(1).Trim,"' and Terminal = '",V.Caller.Terminal,"'",V.Local.sSql)
+F.ODBC.Connection!con.OpenRecordsetRO("rst",V.Local.sSql)
+F.Intrinsic.Control.DoUntil(V.ODBC.con!rst.EOF,=,True)
+	F.Intrinsic.Math.Add(V.Global.iListKey,1,V.Global.iListKey)
+	Gui.f_Lot.lvw1.AddListItem(V.Global.iListKey,V.ODBC.con!rst.FieldValTrim!Lot)
+	F.ODBC.con!rst.MoveNext
+F.Intrinsic.Control.Loop
+F.ODBC.con!rst.Close
+Gui.f_Lot..Show
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("gsfgcnt_commandclick_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL_2.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+program.sub.gsfgcnt_commandclick.end
+
+program.sub.cmdadd_click.start
+F.Intrinsic.Control.SetErrorHandler("cmdadd_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRow.Declare(String)
+V.Local.sSql.Declare(String)
+
+Gui.f_Cnt.gsfgCnt.ReadRow(V.Global.iKey,V.Local.sRow)
+F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+F.Intrinsic.String.Concat("Select * from ATG_3176_BI_OSV_BOL_LOT where Purchase_Order = '",V.Local.sRow(0).Trim,"' and Line = '",V.Local.sRow(1).Trim,"' and Terminal = '",V.Caller.Terminal,"' and Lot = '",V.Screen.f_Lot!txtLot.Text,"'",V.Local.sSql)
+F.ODBC.Connection!con.OpenRecordsetRW("rst",V.Local.sSql)
+F.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,True)
+	F.Intrinsic.Math.Add(V.Global.iListKey,1,V.Global.iListKey)
+	Gui.f_Lot.lvw1.AddListItem(V.Global.iListKey,V.Screen.f_Lot!txtLot.Text)
+	F.ODBC.con!rst.AddNew
+	F.ODBC.con!rst.Set!Purchase_Order(V.Local.sRow(0).Trim)
+	F.ODBC.con!rst.Set!Line(V.Local.sRow(1).Trim)
+	F.ODBC.con!rst.Set!Terminal(V.Caller.Terminal)
+	F.ODBC.con!rst.Set!Lot(V.Screen.f_Lot!txtLot.Text)
+	F.ODBC.con!rst.Update
+	Gui.f_Lot.txtLot.Text("")
+F.Intrinsic.Control.Else
+	F.Intrinsic.UI.Msgbox("Lot number already added!")
+F.Intrinsic.Control.EndIf
+F.ODBC.con!rst.Close
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmdadd_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL_2.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+program.sub.cmdadd_click.end
+
+program.sub.cmddelete_click.start
+F.Intrinsic.Control.SetErrorHandler("cmddelete_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRow.Declare(String)
+V.Local.iKey.Declare(Long)
+V.Local.sSql.Declare(String)
+
+F.Intrinsic.Debug.InvokeDebugger
+Gui.f_Cnt.gsfgCnt.ReadRow(V.Global.iKey,V.Local.sRow)
+F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+F.Intrinsic.String.Concat("Delete ATG_3176_BI_OSV_BOL_LOT where Purchase_Order = '",V.Local.sRow(0).Trim,"' and Line = '",V.Local.sRow(1).Trim,"' and Terminal = '",V.Caller.Terminal,"'",V.Local.sSql)
+F.ODBC.Connection!con.Execute(V.Local.sSql)
+V.Local.iKey.Set(V.Screen.f_Lot!lvw1.SelectedItemKey)
+Gui.f_Lot.lvw1.RemoveItem(V.Local.iKey)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmddelete_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL_2.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+program.sub.cmddelete_click.end
+
+program.sub.f_lot_unload.start
+F.Intrinsic.Control.SetErrorHandler("f_lot_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+Gui.f_Lot..Visible(False)
+Gui.f_Cnt..Enabled(True)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("f_lot_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: ATG_OSV_BOL_2.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+program.sub.f_lot_unload.end
+
+
